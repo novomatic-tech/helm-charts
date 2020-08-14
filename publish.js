@@ -120,7 +120,9 @@ class RemoteHelmRepo {
     async _uploadFile(filename, data, headers = {}) {
         try {
             await axios.put(`${this.repoConfig.repository}/${filename}`, data, {
-                headers: Object.assign({}, this._authHeaders(), headers)
+                headers: Object.assign({}, this._authHeaders(), headers),
+                'maxContentLength': Infinity,
+                'maxBodyLength': Infinity
             });
         } catch(e) {
             throw new Error(`Unable to upload ${filename}. ${e.message}: ${e.response.statusText}`);
